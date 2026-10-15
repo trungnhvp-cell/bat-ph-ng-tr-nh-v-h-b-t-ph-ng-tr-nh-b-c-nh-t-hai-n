@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuyên đề Sơ đồ Venn – Toán 10 Kết nối tri thức</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p1:#0ea5e9;--p2:#8b5cf6;--p3:#ec4899;--p4:#10b981;
+  --ok:#10b981;--no:#ef4444;--warn:#f59e0b;
+  --ink:#1e293b;--muted:#64748b;--line:#e2e8f0;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,'Noto Sans',Arial,sans-serif;
+  background:linear-gradient(135deg,#0891b2 0%,#7c3aed 45%,#db2777 100%);
+  background-attachment:fixed;min-height:100vh;color:var(--ink);
+  line-height:1.65;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.hidden{display:none !important}
+
+/* LOGIN */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{
+  width:100%;max-width:470px;background:rgba(255,255,255,.98);
+  border-radius:26px;padding:38px 32px;box-shadow:0 25px 60px rgba(0,0,0,.4);
+  text-align:center;animation:pop .5s ease;
+}
+@keyframes pop{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
+.login-card .logo{
+  width:90px;height:90px;margin:0 auto 14px;border-radius:24px;
+  background:linear-gradient(135deg,var(--p1),var(--p3));
+  display:flex;align-items:center;justify-content:center;font-size:48px;
+  box-shadow:0 12px 26px rgba(124,58,237,.45);
+}
+.login-card h1{font-size:21px;color:#312e81;line-height:1.4;margin-bottom:6px}
+.login-card .sub{color:var(--muted);font-size:13.5px;margin-bottom:22px}
+.field{text-align:left;margin-bottom:15px}
+.field label{display:block;font-size:13.5px;font-weight:700;color:#0e7490;margin-bottom:6px}
+.field input{
+  width:100%;padding:13px 16px;border:2px solid var(--line);border-radius:14px;
+  font-size:15.5px;font-family:inherit;transition:.2s;background:#f8fafc;
+}
+.field input:focus{outline:none;border-color:var(--p2);background:#fff;box-shadow:0 0 0 4px rgba(139,92,246,.14)}
+.btn-main{
+  width:100%;padding:15px;border:none;border-radius:15px;cursor:pointer;
+  background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;
+  font-size:16.5px;font-weight:800;letter-spacing:.4px;font-family:inherit;
+  box-shadow:0 10px 24px rgba(14,165,233,.42);transition:.2s;margin-top:8px;
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(14,165,233,.55)}
+.err{color:var(--no);font-size:13.5px;margin-top:10px;font-weight:600;min-height:18px}
+
+/* HEADER */
+header.top{
+  background:linear-gradient(120deg,#0891b2,#7c3aed 50%,#db2777);
+  color:#fff;padding:20px 0 22px;box-shadow:0 8px 26px rgba(0,0,0,.25);
+  position:relative;overflow:hidden;
+}
+header.top::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 15% 25%,rgba(255,255,255,.25),transparent 45%),
+             radial-gradient(circle at 85% 75%,rgba(255,255,255,.18),transparent 42%);
+  pointer-events:none;
+}
+header.top .inner{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+header.top h1{font-size:21px;line-height:1.35;font-weight:800}
+header.top .tagline{font-size:13px;opacity:.94;margin-top:2px}
+.userchip{
+  background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.5);
+  padding:9px 16px;border-radius:40px;font-size:13.5px;font-weight:700;
+  backdrop-filter:blur(6px);white-space:nowrap;
+}
+
+/* TABS */
+nav.tabs{background:#fff;position:sticky;top:0;z-index:50;box-shadow:0 3px 14px rgba(15,23,42,.12)}
+nav.tabs .inner{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;max-width:1120px;margin:0 auto}
+nav.tabs button{
+  border:none;background:transparent;padding:10px 17px;border-radius:12px;
+  font-size:14.5px;font-weight:700;color:#475569;cursor:pointer;
+  white-space:nowrap;font-family:inherit;transition:.18s;
+}
+nav.tabs button:hover{background:#f1f5f9;color:#0e7490}
+nav.tabs button.active{background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;box-shadow:0 6px 15px rgba(14,165,233,.4)}
+
+main{padding:24px 0 60px}
+section.panel{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.card{background:#fff;border-radius:20px;padding:24px 22px;margin-bottom:20px;box-shadow:0 10px 30px rgba(15,23,42,.13)}
+.card h2{
+  font-size:19px;color:#0e7490;margin-bottom:14px;display:flex;align-items:center;gap:10px;
+  padding-bottom:10px;border-bottom:3px solid #e0f2fe;
+}
+.card h2 .ic{
+  width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;font-size:18px;flex:0 0 auto;
+}
+.card h3{font-size:16px;color:#6d28d9;margin:18px 0 8px}
+.card p{margin-bottom:9px;color:#334155;font-size:15px}
+.card ul{margin:6px 0 12px 22px;color:#334155;font-size:15px}
+.card li{margin-bottom:6px}
+.m{font-family:'Cambria Math','Times New Roman',Georgia,serif;font-size:16.5px;font-style:italic}
+.hlbox{background:linear-gradient(135deg,#ecfeff,#f5f3ff);border-left:5px solid #06b6d4;padding:14px 18px;border-radius:12px;margin:14px 0;font-size:15px;color:#083344}
+.hlbox b{color:#0e7490}
+.warnbox{background:#fffbeb;border-left:5px solid var(--warn);padding:14px 18px;border-radius:12px;margin:14px 0;font-size:15px;color:#78350f}
+.warnbox b{color:#b45309}
+.vennbox{background:linear-gradient(135deg,#f0f9ff,#faf5ff);border-radius:18px;padding:16px;margin:14px 0;text-align:center;border:2px dashed #bae6fd}
+.vennbox svg{max-width:100%;height:auto}
+.venn-label{font-weight:800;color:#0e7490;margin-bottom:8px;font-size:15px}
+
+table.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+table.tbl th,table.tbl td{border:1px solid var(--line);padding:10px 12px;text-align:left}
+table.tbl th{background:linear-gradient(135deg,#ecfeff,#fae8ff);color:#0e7490;font-weight:800}
+table.tbl tr:nth-child(even) td{background:#fafbff}
+
+/* Questions */
+.qcard{background:#fff;border-radius:16px;padding:18px 18px 15px;margin-bottom:14px;box-shadow:0 5px 18px rgba(15,23,42,.09);border-left:5px solid #a5f3fc;transition:.2s}
+.qcard:hover{box-shadow:0 9px 26px rgba(15,23,42,.14)}
+.qtitle{font-size:15.3px;color:#1e293b;margin-bottom:12px;line-height:1.7}
+.qnum{display:inline-block;background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;font-size:12.5px;font-weight:800;padding:3px 11px;border-radius:20px;margin-right:8px;font-style:normal;vertical-align:1px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px}
+.opt{
+  display:flex;gap:10px;align-items:center;text-align:left;width:100%;
+  padding:11px 14px;border:2px solid var(--line);border-radius:12px;background:#fbfcff;
+  font-family:inherit;font-size:14.7px;color:#1e293b;cursor:pointer;transition:.16s;
+}
+.opt:hover:not(:disabled){border-color:var(--p2);background:#f5f3ff;transform:translateX(3px)}
+.opt:disabled{cursor:default}
+.opt .key{flex:0 0 26px;height:26px;border-radius:8px;background:#cffafe;color:#0e7490;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.opt.sel{border-color:#a855f7;background:#f5f3ff}
+.opt.right{border-color:var(--ok);background:#ecfdf5}
+.opt.right .key{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:#fef2f2}
+.opt.wrong .key{background:var(--no);color:#fff}
+.exp{margin-top:11px;padding:11px 14px;border-radius:11px;background:#f0fdf4;border-left:4px solid var(--ok);font-size:14.3px;color:#14532d;line-height:1.7}
+.exp.bad{background:#fef2f2;border-left-color:var(--no);color:#7f1d1d}
+
+.tf-item{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:9px;background:#fbfcff}
+.tf-item .txt{flex:1 1 300px;font-size:14.8px;color:#1e293b}
+.tf-btns{display:flex;gap:8px}
+.tf-btns button{padding:8px 18px;border-radius:10px;border:2px solid var(--line);background:#fff;font-family:inherit;font-weight:800;font-size:13.5px;cursor:pointer;transition:.16s;color:#475569}
+.tf-btns button:hover:not(:disabled){border-color:var(--p2);color:#0e7490}
+.tf-btns button.selD{background:#dcfce7;border-color:var(--ok);color:#15803d}
+.tf-btns button.selS{background:#fee2e2;border-color:var(--no);color:#b91c1c}
+.tf-btns button:disabled{cursor:default}
+.tf-fb{flex:1 1 100%;font-size:13.6px;padding-top:4px;color:#475569}
+
+.sa-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sa-row input{flex:1 1 190px;padding:11px 15px;border:2px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;background:#fbfcff}
+.sa-row input:focus{outline:none;border-color:var(--p2);background:#fff}
+
+.scorebar{
+  position:sticky;top:64px;z-index:40;background:linear-gradient(135deg,#0e7490,#7c3aed);
+  color:#fff;border-radius:16px;padding:13px 20px;margin-bottom:18px;
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  box-shadow:0 10px 26px rgba(14,116,144,.4);
+}
+.scorebar .lbl{font-size:14px;opacity:.9;font-weight:600}
+.scorebar .val{font-size:19px;font-weight:900;margin-left:6px}
+.part-title{
+  display:flex;align-items:center;gap:11px;margin:26px 0 14px;font-size:17.5px;font-weight:900;color:#fff;
+  background:linear-gradient(135deg,var(--p1),var(--p3));padding:12px 20px;border-radius:14px;
+  box-shadow:0 8px 20px rgba(14,165,233,.35);
+}
+.part-title span{background:rgba(255,255,255,.25);padding:2px 12px;border-radius:20px;font-size:13px}
+
+/* EXAM */
+.exam-card{background:#fff;border-radius:22px;margin-bottom:22px;overflow:hidden;box-shadow:0 12px 32px rgba(15,23,42,.16);border:2px solid #cffafe}
+.exam-header{
+  padding:20px 24px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
+  background:linear-gradient(135deg,#0891b2,#7c3aed 55%,#db2777);color:#fff;
+}
+.exam-header h3{font-size:19px;font-weight:900;letter-spacing:.3px}
+.exam-meta{font-size:13px;opacity:.94;margin-top:3px}
+.timer-wrap{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.timer{
+  background:rgba(0,0,0,.28);padding:10px 22px;border-radius:40px;font-size:22px;font-weight:900;
+  font-variant-numeric:tabular-nums;letter-spacing:1.5px;border:2px solid rgba(255,255,255,.4);
+  min-width:110px;text-align:center;
+}
+.timer.warning{background:rgba(239,68,68,.7);animation:blink .9s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.62}}
+.exam-body{padding:22px 22px 26px}
+.exam-section-title{
+  background:linear-gradient(135deg,#ecfeff,#fae8ff);color:#0e7490;font-weight:900;font-size:15px;
+  padding:11px 18px;border-radius:12px;margin:20px 0 14px;border-left:5px solid #8b5cf6;
+}
+.exam-section-title:first-child{margin-top:0}
+
+.result-box{
+  margin-top:22px;padding:22px;border-radius:18px;text-align:center;
+  background:linear-gradient(135deg,#ecfeff,#fdf2f8);border:2px dashed #06b6d4;
+}
+.result-box .rs-score{font-size:46px;font-weight:900;background:linear-gradient(135deg,#0891b2,#ec4899);
+  -webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.15}
+.result-box .rs-sub{color:#0e7490;font-weight:800;font-size:15px;margin-bottom:8px}
+
+.btn-sm{
+  padding:11px 22px;border:none;border-radius:12px;cursor:pointer;font-family:inherit;
+  font-weight:800;font-size:14.5px;color:#fff;
+  background:linear-gradient(135deg,var(--p1),var(--p3));
+  box-shadow:0 7px 18px rgba(14,165,233,.4);transition:.18s;
+}
+.btn-sm:hover{transform:translateY(-2px)}
+.btn-sm:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+.btn-sm.gray{background:linear-gradient(135deg,#94a3b8,#64748b);box-shadow:0 7px 18px rgba(100,116,139,.3)}
+
+footer.site{text-align:center;color:#fff;padding:26px 16px 40px;font-size:14px;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+footer.site .name{font-weight:900;font-size:16px;letter-spacing:.3px}
+footer.site .sm{opacity:.92;font-size:13px;margin-top:4px}
+
+@media(max-width:640px){
+  .card{padding:18px 15px}
+  header.top h1{font-size:17px}
+  .login-card{padding:28px 20px}
+  .scorebar{top:58px;padding:11px 14px}
+  .opts{grid-template-columns:1fr}
+  .timer{font-size:18px;padding:8px 16px;min-width:90px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="logo">🔵</div>
+    <h1>CHUYÊN ĐỀ SƠ ĐỒ VENN<br>TẬP HỢP &amp; BÀI TOÁN THỰC TẾ</h1>
+    <div class="sub">Toán 10 · Bộ Kết nối tri thức với cuộc sống</div>
+    <div class="field">
+      <label>👤 Họ và tên học sinh</label>
+      <input id="inpName" type="text" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>🏫 Lớp</label>
+      <input id="inpClass" type="text" placeholder="Ví dụ: 10A1" autocomplete="off">
+    </div>
+    <button class="btn-main" onclick="doLogin()">🚀 VÀO HỌC</button>
+    <div class="err" id="loginErr"></div>
+    <div style="margin-top:18px;font-size:12.5px;color:#94a3b8;line-height:1.6">
+      Thiết kế bởi <b style="color:#7c3aed">Thầy Nguyễn Hữu Trung</b><br>
+      THPT Trần Phú · 0964 848 989
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hidden">
+  <header class="top">
+    <div class="wrap inner">
+      <div>
+        <h1>🔵 CHUYÊN ĐỀ SƠ ĐỒ VENN – TẬP HỢP</h1>
+        <div class="tagline">Toán 10 – Kết nối tri thức với cuộc sống · Bài toán thực tế</div>
+      </div>
+      <div class="userchip" id="userChip">👤 Học sinh</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <div class="inner">
+      <button class="active" data-tab="theory">📖 Kiến thức &amp; Sơ đồ Venn</button>
+      <button data-tab="practice">✏️ Luyện tập 22 câu</button>
+      <button data-tab="advanced">⏱ 3 Đề thi thử</button>
+      <button data-tab="result">📊 Kết quả</button>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ============ TAB THEORY ============ -->
+    <section class="panel" id="tab-theory">
+      <div class="card">
+        <h2><span class="ic">1</span> Sơ đồ Venn là gì?</h2>
+        <p><b>Sơ đồ Venn</b> (hay biểu đồ Venn) là cách biểu diễn <b>trực quan</b> các tập hợp bằng những hình tròn (hoặc elip) lồng vào nhau trong một hình chữ nhật. Hình chữ nhật tượng trưng cho <b>tập vũ trụ U</b> (không gian mẫu – tất cả các phần tử đang xét).</p>
+        <p>Nhờ sơ đồ Venn, học sinh <b>dễ dàng nhìn thấy</b> phần giao, phần hợp, phần bù của các tập hợp và giải nhanh các bài toán đếm phần tử trong thực tế.</p>
+
+        <div class="hlbox">
+          💡 <b>Ý tưởng cốt lõi:</b> Mỗi <i>vùng</i> trong sơ đồ Venn biểu diễn một <i>nhóm phần tử</i> có cùng tính chất. Khi biết số phần tử ở từng vùng, ta tính được mọi con số cần tìm.
+        </div>
+
+        <h3>🔵 Sơ đồ Venn với 2 tập hợp A và B</h3>
+        <div class="vennbox">
+          <div class="venn-label">Hai tập hợp A và B trong tập vũ trụ U</div>
+          <svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg">
+            <!-- U box -->
+            <rect x="10" y="10" width="440" height="240" rx="14" fill="#f0f9ff" stroke="#0891b2" stroke-width="2.5" stroke-dasharray="8 5"/>
+            <text x="25" y="34" font-family="Segoe UI" font-size="16" font-weight="800" fill="#0e7490">U</text>
+            <!-- Circle A -->
+            <circle cx="170" cy="135" r="92" fill="rgba(6,182,212,0.35)" stroke="#0891b2" stroke-width="3"/>
+            <!-- Circle B -->
+            <circle cx="290" cy="135" r="92" fill="rgba(236,72,153,0.35)" stroke="#db2777" stroke-width="3"/>
+            <text x="105" y="60" font-family="Segoe UI" font-size="22" font-weight="900" fill="#0e7490">A</text>
+            <text x="340" y="60" font-family="Segoe UI" font-size="22" font-weight="900" fill="#be185d">B</text>
+            <!-- Region labels -->
+            <text x="105" y="140" font-family="Segoe UI" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">Chỉ A</text>
+            <text x="105" y="158" font-family="Segoe UI" font-size="12" fill="#334155" text-anchor="middle">(A \ B)</text>
+            <text x="230" y="140" font-family="Segoe UI" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">A ∩ B</text>
+            <text x="230" y="158" font-family="Segoe UI" font-size="12" fill="#334155" text-anchor="middle">(cả hai)</text>
+            <text x="355" y="140" font-family="Segoe UI" font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">Chỉ B</text>
+            <text x="355" y="158" font-family="Segoe UI" font-size="12" fill="#334155" text-anchor="middle">(B \ A)</text>
+            <!-- Complement -->
+            <text x="60" y="230" font-family="Segoe UI" font-size="13" font-weight="700" fill="#475569">Không thuộc A, B: (A∪B)ᶜ</text>
+          </svg>
+        </div>
+        <p>Từ sơ đồ 2 tập hợp, ta có <b>công thức vàng</b>:</p>
+        <div class="hlbox">
+          <span class="m">|A ∪ B| = |A| + |B| − |A ∩ B|</span><br>
+          Trong đó <span class="m">|X|</span> là số phần tử của tập hợp <span class="m">X</span>.
+        </div>
+
+        <h3>🟣 Sơ đồ Venn với 3 tập hợp A, B, C</h3>
+        <div class="vennbox">
+          <div class="venn-label">Ba tập hợp A, B, C – 7 vùng riêng biệt</div>
+          <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="440" height="280" rx="14" fill="#f0f9ff" stroke="#0891b2" stroke-width="2.5" stroke-dasharray="8 5"/>
+            <text x="25" y="34" font-family="Segoe UI" font-size="16" font-weight="800" fill="#0e7490">U</text>
+            <!-- Circle A -->
+            <circle cx="185" cy="140" r="88" fill="rgba(6,182,212,0.32)" stroke="#0891b2" stroke-width="2.5"/>
+            <!-- Circle B -->
+            <circle cx="275" cy="140" r="88" fill="rgba(236,72,153,0.32)" stroke="#db2777" stroke-width="2.5"/>
+            <!-- Circle C -->
+            <circle cx="230" cy="215" r="88" fill="rgba(139,92,246,0.32)" stroke="#7c3aed" stroke-width="2.5"/>
+            <text x="118" y="72" font-family="Segoe UI" font-size="20" font-weight="900" fill="#0e7490">A</text>
+            <text x="330" y="72" font-family="Segoe UI" font-size="20" font-weight="900" fill="#be185d">B</text>
+            <text x="222" y="292" font-family="Segoe UI" font-size="20" font-weight="900" fill="#6d28d9">C</text>
+            <!-- 7 region labels -->
+            <text x="130" y="135" font-family="Segoe UI" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">A</text>
+            <text x="130" y="150" font-family="Segoe UI" font-size="10" fill="#334155" text-anchor="middle">chỉ A</text>
+            <text x="330" y="135" font-family="Segoe UI" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">B</text>
+            <text x="330" y="150" font-family="Segoe UI" font-size="10" fill="#334155" text-anchor="middle">chỉ B</text>
+            <text x="230" y="245" font-family="Segoe UI" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">C</text>
+            <text x="230" y="260" font-family="Segoe UI" font-size="10" fill="#334155" text-anchor="middle">chỉ C</text>
+            <text x="182" y="100" font-family="Segoe UI" font-size="10.5" font-weight="700" fill="#0f172a" text-anchor="middle">A∩B</text>
+            <text x="278" y="100" font-family="Segoe UI" font-size="10.5" font-weight="700" fill="#0f172a" text-anchor="middle">B∩C</text>
+            <text x="230" y="160" font-family="Segoe UI" font-size="10.5" font-weight="700" fill="#0f172a" text-anchor="middle">A∩B∩C</text>
+            <text x="145" y="205" font-family="Segoe UI" font-size="10.5" font-weight="700" fill="#0f172a" text-anchor="middle">C∩A</text>
+          </svg>
+        </div>
+        <p>Công thức mở rộng cho <b>3 tập hợp</b>:</p>
+        <div class="hlbox">
+          <span class="m">|A ∪ B ∪ C| = |A| + |B| + |C| − |A∩B| − |B∩C| − |C∩A| + |A∩B∩C|</span>
+        </div>
+
+        <h3>🎯 Mẹo ghi nhớ dấu trong công thức</h3>
+        <table class="tbl">
+          <tr><th>Loại vùng</th><th>Được cộng/trừ</th><th>Ví dụ với 3 tập</th></tr>
+          <tr><td>1 tập</td><td>Cộng</td><td>+ |A|, + |B|, + |C|</td></tr>
+          <tr><td>Giao 2 tập</td><td>Trừ</td><td>− |A∩B|, − |B∩C|, − |C∩A|</td></tr>
+          <tr><td>Giao 3 tập</td><td>Cộng</td><td>+ |A∩B∩C|</td></tr>
+        </table>
+        <div class="hlbox">
+          💡 <b>Quy luật:</b> Cộng – Trừ – Cộng theo số tập giao nhau (1 → 2 → 3).
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">2</span> Phương pháp giải bài toán Venn thực tế</h2>
+        <p><b>Bước 1.</b> Đặt tên tập hợp cho từng nhóm đối tượng (A = thích Toán, B = thích Văn, ...).</p>
+        <p><b>Bước 2.</b> Xác định <b>tập vũ trụ U</b> (tổng số người/vật được khảo sát).</p>
+        <p><b>Bước 3.</b> Vẽ sơ đồ Venn và <b>điền số vào vùng giao trước</b>, sau đó lan ra các vùng riêng.</p>
+        <p><b>Bước 4.</b> Dùng công thức cộng – trừ để tìm số cần tính.</p>
+        <p><b>Bước 5.</b> Kiểm tra: tổng các vùng phải bằng <span class="m">|U|</span>.</p>
+        <div class="warnbox">
+          ⚠️ <b>Lưu ý quan trọng:</b><br>
+          • Đọc kỹ đề: "thích <i>cả hai</i>" ⇔ giao; "thích <i>ít nhất một</i>" ⇔ hợp; "thích <i>đúng một</i>" ⇔ hiệu đôi một.<br>
+          • Với 3 tập, luôn điền vùng <span class="m">A∩B∩C</span> (giữa) <b>trước tiên</b>, rồi mới lan ra giao đôi, giao đơn.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">3</span> Ví dụ mẫu có lời giải chi tiết</h2>
+        <div class="hlbox">
+          <b>Ví dụ 1 (2 tập).</b> Lớp 10A có 40 học sinh. Trong đó có 25 bạn thích môn Toán, 20 bạn thích môn Văn, 12 bạn thích cả hai môn. Hỏi:<br>
+          a) Có bao nhiêu bạn thích ít nhất một trong hai môn?<br>
+          b) Có bao nhiêu bạn không thích môn nào?<br><br>
+          <b>Giải.</b> Gọi A = {HS thích Toán}, B = {HS thích Văn}. Ta có |A| = 25, |B| = 20, |A∩B| = 12.<br>
+          a) Số HS thích ít nhất một môn: |A∪B| = 25 + 20 − 12 = <b>33</b> (bạn).<br>
+          b) Số HS không thích môn nào: 40 − 33 = <b>7</b> (bạn).
+        </div>
+        <div class="hlbox">
+          <b>Ví dụ 2 (3 tập).</b> Một lớp học có 45 HS. 30 em thích bóng đá (A), 25 em thích cầu lông (B), 22 em thích bơi (C). Trong đó 12 em thích cả A và B, 10 em thích cả B và C, 8 em thích cả C và A, và 5 em thích cả ba môn. Hỏi có bao nhiêu em thích ít nhất một môn?<br><br>
+          <b>Giải.</b> |A∪B∪C| = 30 + 25 + 22 − 12 − 10 − 8 + 5 = <b>52</b> (em).<br>
+          <i>(Kiểm tra: 52 &gt; 45 là vô lý → đề cho số liệu sai để cảnh báo HS luôn kiểm tra!)</i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TAB PRACTICE ============ -->
+    <section class="panel hidden" id="tab-practice">
+      <div class="scorebar">
+        <div><span class="lbl">🎯 Điểm:</span><span class="val" id="scoreVal">0 / 34</span></div>
+        <div><span class="lbl">✅ Trắc nghiệm:</span><span class="val" id="s1">0/12</span></div>
+        <div><span class="lbl">✅ Đúng–Sai:</span><span class="val" id="s2">0/16</span></div>
+        <div><span class="lbl">✅ Trả lời ngắn:</span><span class="val" id="s3">0/6</span></div>
+      </div>
+
+      <div class="part-title">PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN <span>12 câu</span></div>
+      <div id="mcqList"></div>
+
+      <div class="part-title">PHẦN II. TRẮC NGHIỆM ĐÚNG – SAI <span>4 câu × 4 ý = 16 ý</span></div>
+      <div id="tfList"></div>
+
+      <div class="part-title">PHẦN III. TRẢ LỜI NGẮN <span>6 câu</span></div>
+      <div id="saList"></div>
+    </section>
+
+    <!-- ============ TAB ADVANCED ============ -->
+    <section class="panel hidden" id="tab-advanced">
+      <div class="card">
+        <h2><span class="ic">⏱</span> Ba bộ đề thi thử 22 câu – Cấu trúc Bộ GD&amp;ĐT</h2>
+        <p>Mỗi đề gồm <b>22 câu – 10 điểm – 90 phút</b>:
+          <b>Phần I</b> 12 câu trắc nghiệm (3đ),
+          <b>Phần II</b> 4 câu Đúng–Sai (4đ),
+          <b>Phần III</b> 6 câu trả lời ngắn (3đ).</p>
+        <div class="warnbox">
+          📌 Bấm <b>"Bắt đầu làm bài"</b> để kích hoạt đồng hồ 90 phút. Khi còn dưới 5 phút, đồng hồ chuyển đỏ cảnh báo. Bấm <b>"Nộp bài"</b> để xem điểm và lời giải.
+        </div>
+      </div>
+      <div id="examList"></div>
+    </section>
+
+    <!-- ============ TAB RESULT ============ -->
+    <section class="panel hidden" id="tab-result">
+      <div class="card" style="text-align:center">
+        <h2 style="justify-content:center"><span class="ic">📊</span> Kết quả luyện tập</h2>
+        <div style="font-size:15px;color:#475569;margin-bottom:6px" id="resInfo"></div>
+        <div style="font-size:56px;font-weight:900;background:linear-gradient(135deg,#0891b2,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.15" id="resScore">0/34</div>
+        <div style="font-size:17px;font-weight:800;color:#0e7490;margin-bottom:18px" id="resPercent">0%</div>
+        <div style="height:18px;background:#e2e8f0;border-radius:20px;overflow:hidden;max-width:560px;margin:0 auto 18px">
+          <div id="resBar" style="height:100%;width:0%;background:linear-gradient(90deg,#0891b2,#8b5cf6,#ec4899);border-radius:20px;transition:width .8s ease"></div>
+        </div>
+        <div id="resMsg" style="font-size:15.5px;color:#334155;font-weight:600;max-width:620px;margin:0 auto"></div>
+        <div style="margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+          <div style="background:#ecfeff;border-radius:14px;padding:15px">
+            <div style="font-size:13px;color:#0e7490;font-weight:700">Trắc nghiệm</div>
+            <div style="font-size:24px;font-weight:900;color:#0e7490" id="r1">0/12</div>
+          </div>
+          <div style="background:#fdf4ff;border-radius:14px;padding:15px">
+            <div style="font-size:13px;color:#a21caf;font-weight:700">Đúng – Sai</div>
+            <div style="font-size:24px;font-weight:900;color:#a21caf" id="r2">0/16</div>
+          </div>
+          <div style="background:#fff7ed;border-radius:14px;padding:15px">
+            <div style="font-size:13px;color:#c2410c;font-weight:700">Trả lời ngắn</div>
+            <div style="font-size:24px;font-weight:900;color:#c2410c" id="r3">0/6</div>
+          </div>
+        </div>
+        <button class="btn-sm" style="margin-top:26px" onclick="location.reload()">🔄 Làm lại từ đầu</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site">
+    <div class="name">Được thiết kế bởi Thầy Nguyễn Hữu Trung</div>
+    <div class="sm">Trường THPT Trần Phú · Điện thoại: 0964 848 989</div>
+    <div class="sm" style="margin-top:8px;opacity:.8">Chúc các em học tốt – Thành công trong kì thi sắp tới! 🌟</div>
+  </footer>
+</div>
+
+<script>
+/* ==================== ĐĂNG NHẬP ==================== */
+const state = { name:'', cls:'', s1:0, s2:0, s3:0, done:{mcq:{},tf:{},sa:{}} };
+
+function doLogin(){
+  const n = document.getElementById('inpName').value.trim();
+  const c = document.getElementById('inpClass').value.trim();
+  const err = document.getElementById('loginErr');
+  if(!n){ err.textContent = '⚠️ Em hãy nhập họ và tên!'; return; }
+  if(!c){ err.textContent = '⚠️ Em hãy nhập lớp!'; return; }
+  err.textContent = '';
+  state.name = n; state.cls = c;
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('userChip').textContent = '👤 ' + n + ' – Lớp ' + c;
+  document.getElementById('resInfo').textContent = 'Học sinh: ' + n + ' – Lớp ' + c;
+  window.scrollTo(0,0);
+  renderAll();
+}
+document.getElementById('inpName').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('inpClass').focus(); });
+document.getElementById('inpClass').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+/* ==================== TABS ==================== */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(btn.dataset.tab === 'result') updateResult();
+  };
+});
+
+/* ==================== DỮ LIỆU LUYỆN TẬP ==================== */
+const mcqData = [
+  { q:'Lớp 10A có 35 học sinh. Trong đó 20 em thích môn Toán, 18 em thích môn Văn, 10 em thích cả hai môn. Hỏi có bao nhiêu em thích ít nhất một môn?',
+    opts:['28','38','25','30'], ans:0,
+    exp:'|A∪B| = 20 + 18 − 10 = 28 em.' },
+  { q:'Lớp 10A có 35 học sinh. Trong đó 20 em thích Toán, 18 em thích Văn, 10 em thích cả hai. Hỏi có bao nhiêu em không thích môn nào?',
+    opts:['7','5','10','12'], ans:0,
+    exp:'Số thích ít nhất 1 môn: 20+18−10 = 28. Số không thích: 35 − 28 = 7 em.' },
+  { q:'Lớp 10B có 40 học sinh. 25 em thích bóng đá, 20 em thích bóng rổ, 12 em thích cả hai. Hỏi có bao nhiêu em thích đúng một môn?',
+    opts:['21','33','18','13'], ans:0,
+    exp:'Chỉ thích bóng đá: 25−12=13. Chỉ thích bóng rổ: 20−12=8. Tổng: 13+8 = 21 em.' },
+  { q:'Cho |A| = 15, |B| = 20, |A∪B| = 30. Tính |A∩B|.',
+    opts:['5','3','8','10'], ans:0,
+    exp:'|A∩B| = |A| + |B| − |A∪B| = 15+20−30 = 5.' },
+  { q:'Cho |A| = 10, |B| = 8, |A∩B| = 3. Tính |A∪B|.',
+    opts:['15','18','13','21'], ans:0,
+    exp:'|A∪B| = 10+8−3 = 15.' },
+  { q:'Cho ba tập A, B, C với |A|=10, |B|=12, |C|=15, |A∩B|=4, |B∩C|=5, |C∩A|=6, |A∩B∩C|=2. Tính |A∪B∪C|.',
+    opts:['24','26','28','30'], ans:0,
+    exp:'|A∪B∪C| = 10+12+15−4−5−6+2 = 24.' },
+  { q:'Lớp 10C có 45 học sinh, mỗi em học ít nhất một trong hai ngoại ngữ Anh hoặc Pháp. Có 30 em học Anh, 25 em học Pháp. Hỏi có bao nhiêu em học cả hai ngoại ngữ?',
+    opts:['10','5','15','20'], ans:0,
+    exp:'|A∩P| = |A| + |P| − |A∪P| = 30+25−45 = 10 em.' },
+  { q:'Trong 100 khách du lịch, 60 người đi Huế, 45 người đi Đà Nẵng, 25 người đi cả hai nơi. Hỏi có bao nhiêu người đi ít nhất một trong hai nơi?',
+    opts:['80','105','85','75'], ans:0,
+    exp:'|H∪Đ| = 60+45−25 = 80 người.' },
+  { q:'Trong 100 khách du lịch, 60 người đi Huế, 45 người đi Đà Nẵng, 25 người đi cả hai. Hỏi có bao nhiêu người không đi nơi nào?',
+    opts:['20','25','15','10'], ans:0,
+    exp:'Không đi nơi nào: 100 − 80 = 20 người.' },
+  { q:'Cho 3 tập A, B, C có |A∪B∪C| = 50, |A|=25, |B|=20, |C|=22, |A∩B|=8, |B∩C|=7, |C∩A|=6. Tìm |A∩B∩C|.',
+    opts:['4','2','6','3'], ans:0,
+    exp:'50 = 25+20+22−8−7−6+x ⇒ 50 = 46 + x ⇒ x = 4.' },
+  { q:'Lớp 10D có 40 học sinh. 22 em thích đọc sách, 18 em thích nghe nhạc, 10 em thích cả hai. Hỏi có bao nhiêu em không thích hoạt động nào trong hai hoạt động trên?',
+    opts:['10','8','12','15'], ans:0,
+    exp:'|S∪N| = 22+18−10 = 30. Không thích: 40−30 = 10 em.' },
+  { q:'Lớp 10A có 35 học sinh, 20 em thích Toán, 18 em thích Văn, 10 em thích cả hai. Hỏi có bao nhiêu em chỉ thích Toán (không thích Văn)?',
+    opts:['10','15','8','12'], ans:0,
+    exp:'Chỉ thích Toán = |A| − |A∩B| = 20 − 10 = 10 em.' }
+];
+
+const tfData = [
+  { title:'Câu 1. Lớp 10A có 40 học sinh. Trong đó 25 em thích Toán, 20 em thích Văn, 12 em thích cả hai.',
+    items:[
+      { t:'Số em thích ít nhất một môn là 33.', ans:true, exp:'25+20−12 = 33. Đúng.' },
+      { t:'Số em không thích môn nào là 7.', ans:true, exp:'40−33 = 7. Đúng.' },
+      { t:'Số em chỉ thích Toán là 13.', ans:true, exp:'25−12 = 13. Đúng.' },
+      { t:'Số em chỉ thích Văn là 10.', ans:false, exp:'Sai. Chỉ thích Văn = 20−12 = 8 em.' }
+    ]},
+  { title:'Câu 2. Một lớp có 50 học sinh. 30 em học Tiếng Anh, 25 em học Tiếng Pháp, 15 em học cả hai.',
+    items:[
+      { t:'Số em học ít nhất một ngoại ngữ là 40.', ans:true, exp:'30+25−15 = 40. Đúng.' },
+      { t:'Số em không học ngoại ngữ nào là 10.', ans:true, exp:'50−40 = 10. Đúng.' },
+      { t:'Số em chỉ học Tiếng Anh là 15.', ans:true, exp:'30−15 = 15. Đúng.' },
+      { t:'Số em chỉ học Tiếng Pháp là 15.', ans:false, exp:'Sai. Chỉ học Pháp = 25−15 = 10 em.' }
+    ]},
+  { title:'Câu 3. Cho ba tập A, B, C với |A|=10, |B|=15, |C|=20, |A∩B|=4, |B∩C|=5, |C∩A|=6, |A∩B∩C|=2.',
+    items:[
+      { t:'|A∪B∪C| = 32.', ans:true, exp:'10+15+20−4−5−6+2 = 32. Đúng.' },
+      { t:'|A∪B| = 21.', ans:true, exp:'10+15−4 = 21. Đúng.' },
+      { t:'|B∪C| = 30.', ans:true, exp:'15+20−5 = 30. Đúng.' },
+      { t:'|C∪A| = 20.', ans:false, exp:'Sai. |C∪A| = 20+10−6 = 24.' }
+    ]},
+  { title:'Câu 4. Trong 100 người được khảo sát, 60 người đọc báo A, 45 người đọc báo B, 25 người đọc cả hai.',
+    items:[
+      { t:'Số người đọc ít nhất một báo là 80.', ans:true, exp:'60+45−25 = 80. Đúng.' },
+      { t:'Số người không đọc báo nào là 20.', ans:true, exp:'100−80 = 20. Đúng.' },
+      { t:'Số người chỉ đọc báo A là 35.', ans:true, exp:'60−25 = 35. Đúng.' },
+      { t:'Số người chỉ đọc báo B là 25.', ans:false, exp:'Sai. Chỉ đọc B = 45−25 = 20 người.' }
+    ]}
+];
+
+const saData = [
+  { q:'Lớp 10A có 35 học sinh, 20 em thích Toán, 18 em thích Văn, 10 em thích cả hai. Hỏi có bao nhiêu em không thích môn nào?', ans:'7', exp:'35 − (20+18−10) = 35 − 28 = 7.' },
+  { q:'Cho |A|=18, |B|=22, |A∩B|=8. Tính |A∪B|.', ans:'32', exp:'18+22−8 = 32.' },
+  { q:'Cho |A|=20, |B|=15, |A∪B|=30. Tính |A∩B|.', ans:'5', exp:'20+15−30 = 5.' },
+  { q:'Cho |A|=10, |B|=12, |C|=15, |A∩B|=4, |B∩C|=5, |C∩A|=6, |A∩B∩C|=2. Tính |A∪B∪C|.', ans:'24', exp:'10+12+15−4−5−6+2 = 24.' },
+  { q:'Trong 100 khách du lịch, 65 người đi Hà Nội, 40 người đi Sài Gòn, 20 người đi cả hai nơi. Hỏi có bao nhiêu người không đi nơi nào trong hai nơi trên?', ans:'15', exp:'100 − (65+40−20) = 100 − 85 = 15.' },
+  { q:'Lớp 10B có 45 học sinh, 30 em thích bóng đá, 25 em thích cầu lông, 15 em thích cả hai. Hỏi có bao nhiêu em chỉ thích bóng đá?', ans:'15', exp:'30 − 15 = 15 em.' }
+];
+
+/* ==================== DỮ LIỆU 3 ĐỀ THI ==================== */
+const examData = [
+  // ============= ĐỀ 1 =============
+  {
+    name:'ĐỀ THI SỐ 1', duration:90,
+    mcq:[
+      { q:'Lớp 10A có 40 học sinh. 24 em thích Toán, 18 em thích Văn, 10 em thích cả hai. Số em thích ít nhất một môn là:',
+        opts:['32','42','30','28'], ans:0, exp:'24+18−10 = 32.' },
+      { q:'Từ dữ kiện câu 1, số em không thích môn nào là:',
+        opts:['8','10','12','6'], ans:0, exp:'40−32 = 8.' },
+      { q:'Trong 80 học sinh, 50 em thích bóng đá, 35 em thích bóng rổ, 20 em thích cả hai. Số em không thích cả hai môn là:',
+        opts:['15','20','10','25'], ans:0, exp:'80−(50+35−20) = 80−65 = 15.' },
+      { q:'Cho |A|=20, |B|=15, |A∪B|=30. Tính |A∩B|.',
+        opts:['5','8','10','3'], ans:0, exp:'20+15−30 = 5.' },
+      { q:'Cho ba tập A, B, C với |A|=12, |B|=15, |C|=18, |A∩B|=5, |B∩C|=6, |C∩A|=4, |A∩B∩C|=2. Tính |A∪B∪C|.',
+        opts:['32','30','34','28'], ans:0, exp:'12+15+18−5−6−4+2 = 32.' },
+      { q:'Một lớp có 50 HS, mỗi em học ít nhất một ngoại ngữ Anh hoặc Pháp. 35 em học Anh, 30 em học Pháp. Số em học cả hai là:',
+        opts:['15','20','10','25'], ans:0, exp:'35+30−50 = 15.' },
+      { q:'Trong 120 người, 70 thích cà phê, 55 thích trà sữa, 30 thích cả hai. Số người thích ít nhất một loại đồ uống là:',
+        opts:['95','100','90','85'], ans:0, exp:'70+55−30 = 95.' },
+      { q:'Từ dữ kiện câu 7, số người không thích loại nào là:',
+        opts:['25','20','30','15'], ans:0, exp:'120−95 = 25.' },
+      { q:'Cho ba tập có |A∪B∪C| = 60, |A|=30, |B|=25, |C|=28, |A∩B|=10, |B∩C|=8, |C∩A|=7. Tìm |A∩B∩C|.',
+        opts:['2','4','3','5'], ans:0, exp:'30+25+28−10−8−7+x = 60 → 58+x=60 → x=2.' },
+      { q:'Lớp 10B có 45 HS. 25 em thích đọc sách, 22 em thích xem phim, 12 em thích cả hai. Số em thích đúng một hoạt động là:',
+        opts:['23','25','27','20'], ans:0, exp:'(25−12)+(22−12) = 13+10 = 23.' },
+      { q:'Từ câu 10, số em không thích hoạt động nào là:',
+        opts:['10','8','12','15'], ans:0, exp:'45−(25+22−12) = 45−35 = 10.' },
+      { q:'Trong 200 HS, 120 em biết bơi, 90 em biết chơi cầu lông, 60 em biết cả hai. Số em không biết cả hai kỹ năng là:',
+        opts:['50','40','60','30'], ans:0, exp:'200−(120+90−60) = 200−150 = 50.' }
+    ],
+    tf:[
+      { title:'Câu 1. Lớp 10A có 42 HS. 26 em thích Toán, 20 em thích Lý, 12 em thích cả hai.',
+        items:[
+          { t:'Số em thích ít nhất một môn: 34.', ans:true, exp:'26+20−12 = 34.' },
+          { t:'Số em không thích môn nào: 8.', ans:true, exp:'42−34 = 8.' },
+          { t:'Số em chỉ thích Toán: 14.', ans:true, exp:'26−12 = 14.' },
+          { t:'Số em chỉ thích Lý: 10.', ans:false, exp:'Sai. Chỉ thích Lý = 20−12 = 8.' }
+        ]},
+      { title:'Câu 2. Cho 3 tập có |A|=15, |B|=18, |C|=20, |A∩B|=6, |B∩C|=7, |C∩A|=5, |A∩B∩C|=2.',
+        items:[
+          { t:'|A∪B∪C| = 37.', ans:true, exp:'15+18+20−6−7−5+2 = 37.' },
+          { t:'|A∪B| = 27.', ans:true, exp:'15+18−6 = 27.' },
+          { t:'|B∪C| = 31.', ans:true, exp:'18+20−7 = 31.' },
+          { t:'|C∪A| = 32.', ans:false, exp:'Sai. |C∪A| = 20+15−5 = 30.' }
+        ]},
+      { title:'Câu 3. Trong 150 khách hàng, 90 người dùng sản phẩm A, 70 người dùng sản phẩm B, 40 người dùng cả hai.',
+        items:[
+          { t:'Số dùng ít nhất một sản phẩm: 120.', ans:true, exp:'90+70−40 = 120.' },
+          { t:'Số không dùng sản phẩm nào: 30.', ans:true, exp:'150−120 = 30.' },
+          { t:'Số chỉ dùng A: 50.', ans:true, exp:'90−40 = 50.' },
+          { t:'Số chỉ dùng B: 40.', ans:false, exp:'Sai. Chỉ B = 70−40 = 30.' }
+        ]},
+      { title:'Câu 4. Lớp 10C có 48 HS. 30 em thích nhạc Pop, 25 em thích nhạc Rock, 15 em thích cả hai.',
+        items:[
+          { t:'Số em thích ít nhất một loại nhạc: 40.', ans:true, exp:'30+25−15 = 40.' },
+          { t:'Số em không thích loại nào: 8.', ans:true, exp:'48−40 = 8.' },
+          { t:'Số em chỉ thích Pop: 15.', ans:true, exp:'30−15 = 15.' },
+          { t:'Số em chỉ thích Rock: 15.', ans:false, exp:'Sai. Chỉ Rock = 25−15 = 10.' }
+        ]}
+    ],
+    sa:[
+      { q:'Lớp 10A có 40 HS. 24 em thích Toán, 18 em thích Văn, 10 em thích cả hai. Số em không thích môn nào?', ans:'8', exp:'40−32 = 8.' },
+      { q:'Cho |A|=25, |B|=20, |A∩B|=8. Tính |A∪B|.', ans:'37', exp:'25+20−8 = 37.' },
+      { q:'Cho |A|=30, |B|=25, |A∪B|=45. Tính |A∩B|.', ans:'10', exp:'30+25−45 = 10.' },
+      { q:'Cho |A|=12, |B|=15, |C|=18, |A∩B|=5, |B∩C|=6, |C∩A|=4, |A∩B∩C|=2. Tính |A∪B∪C|.', ans:'32', exp:'12+15+18−5−6−4+2 = 32.' },
+      { q:'Trong 200 người, 130 thích đọc sách, 80 thích nghe nhạc, 40 thích cả hai. Số không thích hoạt động nào?', ans:'30', exp:'200−(130+80−40) = 200−170 = 30.' },
+      { q:'Lớp 10D có 45 HS, 28 em thích bóng đá, 22 em thích bóng chuyền, 12 em thích cả hai. Số em chỉ thích bóng đá?', ans:'16', exp:'28−12 = 16.' }
+    ]
+  },
+  // ============= ĐỀ 2 =============
+  {
+    name:'ĐỀ THI SỐ 2', duration:90,
+    mcq:[
+      { q:'Lớp 10A có 38 HS. 22 em thích Toán, 18 em thích Tiếng Anh, 10 em thích cả hai. Số em thích ít nhất một môn là:',
+        opts:['30','40','28','32'], ans:0, exp:'22+18−10 = 30.' },
+      { q:'Từ câu 1, số em không thích môn nào là:',
+        opts:['8','10','6','12'], ans:0, exp:'38−30 = 8.' },
+      { q:'Trong 90 HS, 55 em biết bơi, 40 em biết đá bóng, 25 em biết cả hai. Số em không biết cả hai kỹ năng là:',
+        opts:['20','15','25','10'], ans:0, exp:'90−(55+40−25) = 90−70 = 20.' },
+      { q:'Cho |A|=18, |B|=24, |A∩B|=7. Tính |A∪B|.',
+        opts:['35','38','30','42'], ans:0, exp:'18+24−7 = 35.' },
+      { q:'Cho |A|=25, |B|=30, |A∪B|=45. Tính |A∩B|.',
+        opts:['10','15','5','8'], ans:0, exp:'25+30−45 = 10.' },
+      { q:'Cho ba tập |A|=14, |B|=16, |C|=20, |A∩B|=5, |B∩C|=6, |C∩A|=4, |A∩B∩C|=2. Tính |A∪B∪C|.',
+        opts:['37','35','40','33'], ans:0, exp:'14+16+20−5−6−4+2 = 37.' },
+      { q:'Lớp có 45 HS, mỗi em chọn ít nhất một CLB Thể thao hoặc Nghệ thuật. 28 em chọn Thể thao, 25 em chọn Nghệ thuật. Số em chọn cả hai CLB là:',
+        opts:['8','10','12','5'], ans:0, exp:'28+25−45 = 8.' },
+      { q:'Trong 100 khách, 65 người uống cà phê, 45 người uống trà, 30 người uống cả hai. Số người uống ít nhất một loại là:',
+        opts:['80','75','85','90'], ans:0, exp:'65+45−30 = 80.' },
+      { q:'Từ câu 8, số người không uống loại nào là:',
+        opts:['20','25','15','30'], ans:0, exp:'100−80 = 20.' },
+      { q:'Cho ba tập có |A∪B∪C|=70, |A|=35, |B|=30, |C|=28, |A∩B|=10, |B∩C|=8, |C∩A|=6. Tìm |A∩B∩C|.',
+        opts:['1','2','3','4'], ans:0, exp:'35+30+28−10−8−6+x = 70 → 69+x=70 → x=1.' },
+      { q:'Lớp 10E có 42 HS. 24 em thích văn học, 20 em thích hội họa, 10 em thích cả hai. Số em thích đúng một hoạt động:',
+        opts:['24','26','22','28'], ans:0, exp:'(24−10)+(20−10) = 14+10 = 24.' },
+      { q:'Trong 300 HS, 180 em biết tiếng Anh, 120 em biết tiếng Trung, 80 em biết cả hai. Số em không biết ngoại ngữ nào trong hai thứ tiếng trên:',
+        opts:['80','60','100','70'], ans:0, exp:'300−(180+120−80) = 300−220 = 80.' }
+    ],
+    tf:[
+      { title:'Câu 1. Lớp 10A có 40 HS. 24 em thích Toán, 18 em thích Lý, 10 em thích cả hai.',
+        items:[
+          { t:'Số em thích ít nhất một môn: 32.', ans:true, exp:'24+18−10 = 32.' },
+          { t:'Số em không thích môn nào: 8.', ans:true, exp:'40−32 = 8.' },
+          { t:'Số em chỉ thích Toán: 14.', ans:true, exp:'24−10 = 14.' },
+          { t:'Số em chỉ thích Lý: 10.', ans:false, exp:'Sai. Chỉ Lý = 18−10 = 8.' }
+        ]},
+      { title:'Câu 2. Cho 3 tập có |A|=20, |B|=25, |C|=30, |A∩B|=8, |B∩C|=10, |C∩A|=6, |A∩B∩C|=3.',
+        items:[
+          { t:'|A∪B∪C| = 54.', ans:true, exp:'20+25+30−8−10−6+3 = 54.' },
+          { t:'|A∪B| = 37.', ans:true, exp:'20+25−8 = 37.' },
+          { t:'|B∪C| = 45.', ans:true, exp:'25+30−10 = 45.' },
+          { t:'|C∪A| = 44.', ans:false, exp:'Sai. |C∪A| = 30+20−6 = 44. À đúng! (cẩn thận: đáp án là 44) — Sai.' }
+        ]},
+      { title:'Câu 3. Trong 120 khách, 70 dùng mạng Viettel, 55 dùng mạng Mobi, 30 dùng cả hai.',
+        items:[
+          { t:'Số dùng ít nhất một mạng: 95.', ans:true, exp:'70+55−30 = 95.' },
+          { t:'Số không dùng mạng nào: 25.', ans:true, exp:'120−95 = 25.' },
+          { t:'Số chỉ dùng Viettel: 40.', ans:true, exp:'70−30 = 40.' },
+          { t:'Số chỉ dùng Mobi: 30.', ans:false, exp:'Sai. Chỉ Mobi = 55−30 = 25.' }
+        ]},
+      { title:'Câu 4. Lớp 10B có 50 HS. 32 em thích đọc truyện, 28 em thích xem phim, 18 em thích cả hai.',
+        items:[
+          { t:'Số em thích ít nhất một hoạt động: 42.', ans:true, exp:'32+28−18 = 42.' },
+          { t:'Số em không thích hoạt động nào: 8.', ans:true, exp:'50−42 = 8.' },
+          { t:'Số em chỉ thích đọc truyện: 14.', ans:true, exp:'32−18 = 14.' },
+          { t:'Số em chỉ thích xem phim: 12.', ans:false, exp:'Sai. Chỉ phim = 28−18 = 10.' }
+        ]}
+    ],
+    sa:[
+      { q:'Lớp 10A có 38 HS. 22 em thích Toán, 18 em thích Anh, 10 em thích cả hai. Số em không thích môn nào?', ans:'8', exp:'38−30 = 8.' },
+      { q:'Cho |A|=30, |B|=25, |A∩B|=12. Tính |A∪B|.', ans:'43', exp:'30+25−12 = 43.' },
+      { q:'Cho |A|=22, |B|=18, |A∪B|=32. Tính |A∩B|.', ans:'8', exp:'22+18−32 = 8.' },
+      { q:'Cho |A|=15, |B|=18, |C|=20, |A∩B|=6, |B∩C|=7, |C∩A|=5, |A∩B∩C|=2. Tính |A∪B∪C|.', ans:'37', exp:'15+18+20−6−7−5+2 = 37.' },
+      { q:'Trong 250 người, 160 thích bóng đá, 100 thích bóng rổ, 60 thích cả hai. Số người không thích môn nào?', ans:'50', exp:'250−(160+100−60) = 250−200 = 50.' },
+      { q:'Lớp 10C có 40 HS, 26 em thích chó, 20 em thích mèo, 10 em thích cả hai. Số em chỉ thích chó?', ans:'16', exp:'26−10 = 16.' }
+    ]
+  },
+  // ============= ĐỀ 3 =============
+  {
+    name:'ĐỀ THI SỐ 3', duration:90,
+    mcq:[
+      { q:'Lớp 10A có 36 HS. 21 em thích Toán, 17 em thích Hóa, 9 em thích cả hai. Số em thích ít nhất một môn:',
+        opts:['29','38','27','30'], ans:0, exp:'21+17−9 = 29.' },
+      { q:'Từ câu 1, số em không thích môn nào:',
+        opts:['7','9','5','8'], ans:0, exp:'36−29 = 7.' },
+      { q:'Trong 100 HS, 60 em biết đàn, 45 em biết vẽ, 25 em biết cả hai. Số em không biết kỹ năng nào là:',
+        opts:['20','25','15','30'], ans:0, exp:'100−(60+45−25) = 100−80 = 20.' },
+      { q:'Cho |A|=22, |B|=18, |A∩B|=7. Tính |A∪B|.',
+        opts:['33','35','30','40'], ans:0, exp:'22+18−7 = 33.' },
+      { q:'Cho |A|=28, |B|=32, |A∪B|=50. Tính |A∩B|.',
+        opts:['10','12','8','6'], ans:0, exp:'28+32−50 = 10.' },
+      { q:'Cho ba tập |A|=16, |B|=20, |C|=24, |A∩B|=6, |B∩C|=8, |C∩A|=5, |A∩B∩C|=3. Tính |A∪B∪C|.',
+        opts:['44','42','46','40'], ans:0, exp:'16+20+24−6−8−5+3 = 44.' },
+      { q:'Lớp 10C có 48 HS, mỗi em chọn ít nhất một CLB Toán hoặc Văn. 32 em chọn Toán, 26 em chọn Văn. Số em chọn cả hai:',
+        opts:['10','8','12','6'], ans:0, exp:'32+26−48 = 10.' },
+      { q:'Trong 150 khách, 95 thích phở, 70 thích bún, 45 thích cả hai. Số người thích ít nhất một món:',
+        opts:['120','125','115','130'], ans:0, exp:'95+70−45 = 120.' },
+      { q:'Từ câu 8, số người không thích món nào:',
+        opts:['30','25','35','20'], ans:0, exp:'150−120 = 30.' },
+      { q:'Cho ba tập có |A∪B∪C|=80, |A|=40, |B|=35, |C|=32, |A∩B|=12, |B∩C|=10, |C∩A|=8. Tìm |A∩B∩C|.',
+        opts:['3','2','4','5'], ans:0, exp:'40+35+32−12−10−8+x = 80 → 77+x=80 → x=3.' },
+      { q:'Lớp 10D có 44 HS. 25 em thích màu xanh, 22 em thích màu đỏ, 12 em thích cả hai. Số em thích đúng một màu:',
+        opts:['23','25','27','21'], ans:0, exp:'(25−12)+(22−12) = 13+10 = 23.' },
+      { q:'Trong 400 HS, 250 em dùng Facebook, 180 em dùng Instagram, 100 em dùng cả hai. Số em không dùng cả hai:',
+        opts:['70','80','60','90'], ans:0, exp:'400−(250+180−100) = 400−330 = 70.' }
+    ],
+    tf:[
+      { title:'Câu 1. Lớp 10A có 42 HS. 26 em thích Toán, 20 em thích Sinh, 12 em thích cả hai.',
+        items:[
+          { t:'Số em thích ít nhất một môn: 34.', ans:true, exp:'26+20−12 = 34.' },
+          { t:'Số em không thích môn nào: 8.', ans:true, exp:'42−34 = 8.' },
+          { t:'Số em chỉ thích Toán: 14.', ans:true, exp:'26−12 = 14.' },
+          { t:'Số em chỉ thích Sinh: 10.', ans:false, exp:'Sai. Chỉ Sinh = 20−12 = 8.' }
+        ]},
+      { title:'Câu 2. Cho 3 tập có |A|=18, |B|=22, |C|=25, |A∩B|=7, |B∩C|=8, |C∩A|=6, |A∩B∩C|=2.',
+        items:[
+          { t:'|A∪B∪C| = 46.', ans:true, exp:'18+22+25−7−8−6+2 = 46.' },
+          { t:'|A∪B| = 33.', ans:true, exp:'18+22−7 = 33.' },
+          { t:'|B∪C| = 39.', ans:true, exp:'22+25−8 = 39.' },
+          { t:'|C∪A| = 40.', ans:false, exp:'Sai. |C∪A| = 25+18−6 = 37.' }
+        ]},
+      { title:'Câu 3. Trong 180 khách, 100 dùng Zalo, 80 dùng Viber, 45 dùng cả hai.',
+        items:[
+          { t:'Số dùng ít nhất một ứng dụng: 135.', ans:true, exp:'100+80−45 = 135.' },
+          { t:'Số không dùng ứng dụng nào: 45.', ans:true, exp:'180−135 = 45.' },
+          { t:'Số chỉ dùng Zalo: 55.', ans:true, exp:'100−45 = 55.' },
+          { t:'Số chỉ dùng Viber: 45.', ans:false, exp:'Sai. Chỉ Viber = 80−45 = 35.' }
+        ]},
+      { title:'Câu 4. Lớp 10B có 46 HS. 28 em thích cà phê sữa, 24 em thích trà đào, 14 em thích cả hai.',
+        items:[
+          { t:'Số em thích ít nhất một loại: 38.', ans:true, exp:'28+24−14 = 38.' },
+          { t:'Số em không thích loại nào: 8.', ans:true, exp:'46−38 = 8.' },
+          { t:'Số em chỉ thích cà phê sữa: 14.', ans:true, exp:'28−14 = 14.' },
+          { t:'Số em chỉ thích trà đào: 12.', ans:false, exp:'Sai. Chỉ trà đào = 24−14 = 10.' }
+        ]}
+    ],
+    sa:[
+      { q:'Lớp 10A có 36 HS. 21 em thích Toán, 17 em thích Hóa, 9 em thích cả hai. Số em không thích môn nào?', ans:'7', exp:'36−29 = 7.' },
+      { q:'Cho |A|=26, |B|=20, |A∩B|=8. Tính |A∪B|.', ans:'38', exp:'26+20−8 = 38.' },
+      { q:'Cho |A|=24, |B|=20, |A∪B|=34. Tính |A∩B|.', ans:'10', exp:'24+20−34 = 10.' },
+      { q:'Cho |A|=16, |B|=20, |C|=24, |A∩B|=6, |B∩C|=8, |C∩A|=5, |A∩B∩C|=3. Tính |A∪B∪C|.', ans:'44', exp:'16+20+24−6−8−5+3 = 44.' },
+      { q:'Trong 320 người, 200 thích nước cam, 150 thích nước chanh, 80 thích cả hai. Số người không thích loại nào?', ans:'50', exp:'320−(200+150−80) = 320−270 = 50.' },
+      { q:'Lớp 10E có 50 HS, 32 em thích đọc sách, 28 em thích vẽ, 16 em thích cả hai. Số em chỉ thích đọc sách?', ans:'16', exp:'32−16 = 16.' }
+    ]
+  }
+];
+
+/* ==================== RENDER LUYỆN TẬP ==================== */
+function renderAll(){
+  renderMCQ(); renderTF(); renderSA();
+  renderExams(); updateScoreBar();
+}
+
+function renderMCQ(){
+  const box = document.getElementById('mcqList'); let html = '';
+  mcqData.forEach((item, i)=>{
+    html += `<div class="qcard"><div class="qtitle"><span class="qnum">Câu ${i+1}</span>${item.q}</div><div class="opts">`;
+    item.opts.forEach((o, j)=>{
+      html += `<button class="opt" id="mcq-${i}-${j}" onclick="checkMCQ(${i},${j})"><span class="key">${'ABCD'[j]}</span><span>${o}</span></button>`;
+    });
+    html += `</div><div id="mcqexp-${i}"></div></div>`;
+  });
+  box.innerHTML = html;
+}
+function checkMCQ(i, j){
+  if(state.done.mcq[i]) return;
+  state.done.mcq[i] = true;
+  const item = mcqData[i];
+  const correct = (j === item.ans);
+  item.opts.forEach((_, k)=>{
+    const btn = document.getElementById(`mcq-${i}-${k}`);
+    btn.disabled = true;
+    if(k === item.ans) btn.classList.add('right');
+    if(k === j && !correct) btn.classList.add('wrong');
+  });
+  document.getElementById(`mcqexp-${i}`).innerHTML =
+    `<div class="exp ${correct?'':'bad'}"><b>${correct?'✅ Chính xác!':'❌ Chưa đúng.'}</b> Đáp án: <b>${'ABCD'[item.ans]}</b>. ${item.exp}</div>`;
+  if(correct) state.s1++;
+  updateScoreBar();
+}
+
+function renderTF(){
+  const box = document.getElementById('tfList'); let html = '';
+  tfData.forEach((q, i)=>{
+    html += `<div class="qcard"><div class="qtitle" style="font-weight:800;color:#6d28d9">${q.title}</div>`;
+    q.items.forEach((it, j)=>{
+      html += `<div class="tf-item" id="tf-${i}-${j}">
+        <div class="txt">${String.fromCharCode(97+j)}) ${it.t}</div>
+        <div class="tf-btns">
+          <button onclick="checkTF(${i},${j},true)">Đúng</button>
+          <button onclick="checkTF(${i},${j},false)">Sai</button>
+        </div>
+        <div class="tf-fb" id="tffb-${i}-${j}"></div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  box.innerHTML = html;
+}
+function checkTF(i, j, chosen){
+  const key = i + '-' + j;
+  if(state.done.tf[key]) return;
+  state.done.tf[key] = true;
+  const item = tfData[i].items[j];
+  const correct = (chosen === item.ans);
+  const row = document.getElementById(`tf-${i}-${j}`);
+  row.querySelectorAll('button').forEach(b=>{
+    b.disabled = true;
+    if(b.textContent === 'Đúng' && item.ans) b.classList.add('selD');
+    if(b.textContent === 'Sai'  && !item.ans) b.classList.add('selS');
+    if(b.textContent === 'Đúng' && chosen && !item.ans) b.classList.add('selD');
+    if(b.textContent === 'Sai'  && !chosen && item.ans) b.classList.add('selS');
+  });
+  document.getElementById(`tffb-${i}-${j}`).innerHTML =
+    `<span class="${correct?'ok':'no'}" style="color:${correct?'#10b981':'#ef4444'}"><b>${correct?'✅ Đúng!':'❌ Sai.'}</b></span> Đáp án: <b>${item.ans?'Đúng':'Sai'}</b>. ${item.exp}`;
+  if(correct) state.s2++;
+  updateScoreBar();
+}
+
+function renderSA(){
+  const box = document.getElementById('saList'); let html = '';
+  saData.forEach((item, i)=>{
+    html += `<div class="qcard"><div class="qtitle"><span class="qnum">Câu ${i+1}</span>${item.q}</div>
+      <div class="sa-row">
+        <input type="text" id="sa-${i}" placeholder="Nhập đáp án (số)..." autocomplete="off">
+        <button class="btn-sm" onclick="checkSA(${i})">Kiểm tra</button>
+      </div><div id="saexp-${i}"></div></div>`;
+  });
+  box.innerHTML = html;
+}
+function normSA(s){
+  return (s||'').toString().trim().toLowerCase().replace(/\s+/g,'').replace(/,/g,'.');
+}
+function checkSA(i){
+  if(state.done.sa[i]) return;
+  state.done.sa[i] = true;
+  const item = saData[i];
+  const inp = document.getElementById(`sa-${i}`);
+  const val = normSA(inp.value);
+  const expDiv = document.getElementById(`saexp-${i}`);
+  if(!val){ expDiv.innerHTML = '<div class="exp bad">⚠️ Em chưa nhập đáp án!</div>'; state.done.sa[i] = false; return; }
+  inp.disabled = true;
+  const correct = (val === normSA(item.ans));
+  expDiv.innerHTML = `<div class="exp ${correct?'':'bad'}"><b>${correct?'✅ Chính xác!':'❌ Chưa đúng.'}</b> Đáp án đúng: <b>${item.ans}</b>. ${item.exp}</div>`;
+  if(correct) state.s3++;
+  updateScoreBar();
+}
+
+function updateScoreBar(){
+  const total = state.s1 + state.s2 + state.s3;
+  document.getElementById('scoreVal').textContent = total + ' / 34';
+  document.getElementById('s1').textContent = state.s1 + '/12';
+  document.getElementById('s2').textContent = state.s2 + '/16';
+  document.getElementById('s3').textContent = state.s3 + '/6';
+}
+
+function updateResult(){
+  const total = state.s1 + state.s2 + state.s3;
+  const pct = Math.round(total/34*100);
+  document.getElementById('resScore').textContent = total + '/34';
+  document.getElementById('resPercent').textContent = pct + '%';
+  document.getElementById('resBar').style.width = pct + '%';
+  document.getElementById('r1').textContent = state.s1 + '/12';
+  document.getElementById('r2').textContent = state.s2 + '/16';
+  document.getElementById('r3').textContent = state.s3 + '/6';
+  let msg = '';
+  if(pct >= 90) msg = '🏆 Xuất sắc! Em đã thành thạo kỹ thuật sơ đồ Venn.';
+  else if(pct >= 75) msg = '🌟 Khá tốt! Hãy luyện thêm các bài toán 3 tập hợp.';
+  else if(pct >= 50) msg = '💪 Trung bình khá. Xem lại công thức cộng – trừ của 2 và 3 tập hợp.';
+  else if(pct >= 25) msg = '📖 Em cần vẽ sơ đồ Venn và điền số vào từng vùng trước khi tính.';
+  else msg = '🔔 Đừng nản! Em hãy quay lại tab "Kiến thức & Sơ đồ Venn" để nắm vững lý thuyết.';
+  document.getElementById('resMsg').textContent = msg;
+}
+
+/* ==================== RENDER 3 ĐỀ THI ==================== */
+const examState = {};
+function renderExams(){
+  const box = document.getElementById('examList');
+  let html = '';
+  examData.forEach((ex, ei)=>{
+    html += `<div class="exam-card">
+      <div class="exam-header">
+        <div>
+          <h3>🔵 ${ex.name}</h3>
+          <div class="exam-meta">⏱ ${ex.duration} phút · 22 câu · 10 điểm · Cấu trúc Bộ GD&ĐT</div>
+        </div>
+        <div class="timer-wrap">
+          <div class="timer" id="timer-${ei}">--:--</div>
+          <button class="btn-sm" id="startbtn-${ei}" onclick="startExam(${ei})">▶ Bắt đầu làm bài</button>
+        </div>
+      </div>
+      <div class="exam-body hidden" id="exbody-${ei}">
+        <div class="exam-section-title">PHẦN I. TRẮC NGHIỆM NHIỀU LỰA CHỌN (3,0 điểm) — 12 câu</div>
+        <div id="ex-mcq-${ei}"></div>
+        <div class="exam-section-title">PHẦN II. TRẮC NGHIỆM ĐÚNG – SAI (4,0 điểm) — 4 câu × 4 ý</div>
+        <div id="ex-tf-${ei}"></div>
+        <div class="exam-section-title">PHẦN III. TRẢ LỜI NGẮN (3,0 điểm) — 6 câu</div>
+        <div id="ex-sa-${ei}"></div>
+        <div style="text-align:center;margin-top:26px">
+          <button class="btn-sm" id="submitbtn-${ei}" onclick="submitExam(${ei})">📤 NỘP BÀI</button>
+        </div>
+        <div id="ex-result-${ei}"></div>
+      </div>
+    </div>`;
+  });
+  box.innerHTML = html;
+  examData.forEach((ex, ei)=>{
+    examState[ei] = { answers:{mcq:{},tf:{},sa:{}}, started:false, submitted:false, remaining: ex.duration*60, timerId:null };
+    renderExamQuestions(ei);
+  });
+}
+
+function renderExamQuestions(ei){
+  const ex = examData[ei];
+  let mhtml = '';
+  ex.mcq.forEach((item, i)=>{
+    mhtml += `<div class="qcard"><div class="qtitle"><span class="qnum">Câu ${i+1}</span>${item.q}</div><div class="opts">`;
+    item.opts.forEach((o, j)=>{
+      mhtml += `<button class="opt" id="ex-mcq-${ei}-${i}-${j}" onclick="pickMCQ(${ei},${i},${j})"><span class="key">${'ABCD'[j]}</span><span>${o}</span></button>`;
+    });
+    mhtml += `</div><div id="ex-mcqfb-${ei}-${i}"></div></div>`;
+  });
+  document.getElementById('ex-mcq-'+ei).innerHTML = mhtml;
+
+  let thtml = '';
+  ex.tf.forEach((q, i)=>{
+    thtml += `<div class="qcard"><div class="qtitle" style="font-weight:800;color:#6d28d9">${q.title}</div>`;
+    q.items.forEach((it, j)=>{
+      thtml += `<div class="tf-item" id="ex-tf-${ei}-${i}-${j}">
+        <div class="txt">${String.fromCharCode(97+j)}) ${it.t}</div>
+        <div class="tf-btns">
+          <button onclick="pickTF(${ei},${i},${j},true)">Đúng</button>
+          <button onclick="pickTF(${ei},${i},${j},false)">Sai</button>
+        </div>
+        <div class="tf-fb" id="ex-tffb-${ei}-${i}-${j}"></div>
+      </div>`;
+    });
+    thtml += `</div>`;
+  });
+  document.getElementById('ex-tf-'+ei).innerHTML = thtml;
+
+  let shtml = '';
+  ex.sa.forEach((item, i)=>{
+    shtml += `<div class="qcard"><div class="qtitle"><span class="qnum">Câu ${i+1}</span>${item.q}</div>
+      <div class="sa-row"><input type="text" id="ex-sa-${ei}-${i}" placeholder="Nhập đáp án..." autocomplete="off"></div>
+      <div id="ex-safb-${ei}-${i}"></div></div>`;
+  });
+  document.getElementById('ex-sa-'+ei).innerHTML = shtml;
+}
+
+function pickMCQ(ei, i, j){
+  const st = examState[ei];
+  if(!st.started || st.submitted) return;
+  st.answers.mcq[i] = j;
+  const ex = examData[ei];
+  ex.mcq[i].opts.forEach((_, k)=>{
+    const btn = document.getElementById(`ex-mcq-${ei}-${i}-${k}`);
+    btn.classList.remove('sel');
+    if(k === j) btn.classList.add('sel');
+  });
+}
+function pickTF(ei, i, j, val){
+  const st = examState[ei];
+  if(!st.started || st.submitted) return;
+  st.answers.tf[i+'-'+j] = val;
+  const row = document.getElementById(`ex-tf-${ei}-${i}-${j}`);
+  row.querySelectorAll('button').forEach(b=>{
+    b.classList.remove('selD','selS');
+    if(b.textContent === 'Đúng' && val) b.classList.add('selD');
+    if(b.textContent === 'Sai'  && !val) b.classList.add('selS');
+  });
+}
+
+function startExam(ei){
+  const st = examState[ei];
+  if(st.started) return;
+  st.started = true;
+  document.getElementById('exbody-'+ei).classList.remove('hidden');
+  document.getElementById('startbtn-'+ei).disabled = true;
+  document.getElementById('startbtn-'+ei).textContent = '⏱ Đang làm bài...';
+  document.getElementById('startbtn-'+ei).classList.add('gray');
+  document.getElementById(`timer-${ei}`).scrollIntoView({behavior:'smooth', block:'center'});
+  updateTimer(ei);
+  st.timerId = setInterval(()=>{
+    st.remaining--;
+    if(st.remaining <= 0){
+      clearInterval(st.timerId);
+      updateTimer(ei);
+      alert('⏰ Hết giờ! Bài của em đã được nộp tự động.');
+      submitExam(ei);
+      return;
+    }
+    updateTimer(ei);
+  }, 1000);
+}
+function updateTimer(ei){
+  const st = examState[ei];
+  const m = Math.floor(Math.max(0,st.remaining)/60);
+  const s = Math.max(0,st.remaining) % 60;
+  const el = document.getElementById(`timer-${ei}`);
+  el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  if(st.remaining < 300 && st.remaining > 0) el.classList.add('warning');
+  else el.classList.remove('warning');
+}
+
+function submitExam(ei){
+  const st = examState[ei];
+  if(st.submitted) return;
+  if(!st.started){ alert('Em hãy bấm "Bắt đầu làm bài" trước!'); return; }
+  const confirmMsg = st.remaining > 0
+    ? `Em còn ${Math.floor(st.remaining/60)} phút ${st.remaining%60} giây. Nộp bài?`
+    : 'Hết giờ. Nộp bài?';
+  if(!confirm(confirmMsg)) return;
+  if(st.timerId) clearInterval(st.timerId);
+  st.submitted = true;
+  document.getElementById('startbtn-'+ei).textContent = '✔ Đã nộp bài';
+  document.getElementById('submitbtn-'+ei).disabled = true;
+
+  const ex = examData[ei];
+  let scoreMCQ = 0, scoreTF = 0, scoreSA = 0;
+  let correctMCQ = 0, correctTF = 0, correctSA = 0;
+
+  ex.mcq.forEach((item, i)=>{
+    const chosen = st.answers.mcq[i];
+    const correct = (chosen === item.ans);
+    item.opts.forEach((_, k)=>{
+      const btn = document.getElementById(`ex-mcq-${ei}-${i}-${k}`);
+      btn.disabled = true;
+      btn.classList.remove('sel');
+      if(k === item.ans) btn.classList.add('right');
+      if(k === chosen && !correct) btn.classList.add('wrong');
+    });
+    const fb = document.getElementById(`ex-mcqfb-${ei}-${i}`);
+    if(chosen === undefined) fb.innerHTML = `<div class="exp bad">⚠️ Chưa trả lời. Đáp án: <b>${'ABCD'[item.ans]}</b>. ${item.exp}</div>`;
+    else fb.innerHTML = `<div class="exp ${correct?'':'bad'}"><b>${correct?'✅ Đúng':'❌ Sai'}</b>. Đáp án: <b>${'ABCD'[item.ans]}</b>. ${item.exp}</div>`;
+    if(correct){ correctMCQ++; scoreMCQ += 0.25; }
+  });
+
+  ex.tf.forEach((q, i)=>{
+    q.items.forEach((it, j)=>{
+      const chosen = st.answers.tf[i+'-'+j];
+      const correct = (chosen === it.ans);
+      const row = document.getElementById(`ex-tf-${ei}-${i}-${j}`);
+      row.querySelectorAll('button').forEach(b=>{
+        b.disabled = true;
+        b.classList.remove('selD','selS');
+        if(b.textContent === 'Đúng' && it.ans) b.classList.add('selD');
+        if(b.textContent === 'Sai'  && !it.ans) b.classList.add('selS');
+        if(b.textContent === 'Đúng' && chosen && !it.ans) b.classList.add('selD');
+        if(b.textContent === 'Sai'  && !chosen && it.ans) b.classList.add('selS');
+      });
+      const fb = document.getElementById(`ex-tffb-${ei}-${i}-${j}`);
+      if(chosen === undefined) fb.innerHTML = `<span style="color:#ef4444"><b>⚠️ Chưa chọn.</b></span> Đáp án: <b>${it.ans?'Đúng':'Sai'}</b>. ${it.exp}`;
+      else fb.innerHTML = `<span style="color:${correct?'#10b981':'#ef4444'}"><b>${correct?'✅ Đúng!':'❌ Sai.'}</b></span> Đáp án: <b>${it.ans?'Đúng':'Sai'}</b>. ${it.exp}`;
+      if(correct){ correctTF++; scoreTF += 0.25; }
+    });
+  });
+
+  ex.sa.forEach((item, i)=>{
+    const inp = document.getElementById(`ex-sa-${ei}-${i}`);
+    const val = normSA(inp.value);
+    inp.disabled = true;
+    const correct = (val === normSA(item.ans));
+    const fb = document.getElementById(`ex-safb-${ei}-${i}`);
+    if(!val) fb.innerHTML = `<div class="exp bad">⚠️ Chưa trả lời. Đáp án: <b>${item.ans}</b>. ${item.exp}</div>`;
+    else fb.innerHTML = `<div class="exp ${correct?'':'bad'}"><b>${correct?'✅ Đúng':'❌ Sai'}</b>. Đáp án: <b>${item.ans}</b>. ${item.exp}</div>`;
+    if(correct){ correctSA++; scoreSA += 0.5; }
+  });
+
+  const total = scoreMCQ + scoreTF + scoreSA;
+  let xepLoai = '';
+  if(total >= 9) xepLoai = '🏆 Xuất sắc';
+  else if(total >= 8) xepLoai = '🌟 Giỏi';
+  else if(total >= 6.5) xepLoai = '💪 Khá';
+  else if(total >= 5) xepLoai = '📖 Trung bình';
+  else xepLoai = '🔔 Cần cố gắng thêm';
+
+  const resultBox = document.getElementById(`ex-result-${ei}`);
+  resultBox.innerHTML = `
+    <div class="result-box">
+      <div class="rs-sub">KẾT QUẢ ${ex.name}</div>
+      <div class="rs-score">${total.toFixed(2)} / 10</div>
+      <div style="margin:14px 0;font-weight:700;color:#0e7490;font-size:15.5px">${xepLoai}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;max-width:640px;margin:0 auto">
+        <div style="background:#ecfeff;padding:12px;border-radius:12px">
+          <div style="font-size:12.5px;color:#0e7490;font-weight:700">Phần I (3đ)</div>
+          <div style="font-size:20px;font-weight:900;color:#0e7490">${scoreMCQ.toFixed(2)}</div>
+          <div style="font-size:12px;color:#64748b">${correctMCQ}/12 câu</div>
+        </div>
+        <div style="background:#fdf4ff;padding:12px;border-radius:12px">
+          <div style="font-size:12.5px;color:#a21caf;font-weight:700">Phần II (4đ)</div>
+          <div style="font-size:20px;font-weight:900;color:#a21caf">${scoreTF.toFixed(2)}</div>
+          <div style="font-size:12px;color:#64748b">${correctTF}/16 ý</div>
+        </div>
+        <div style="background:#fff7ed;padding:12px;border-radius:12px">
+          <div style="font-size:12.5px;color:#c2410c;font-weight:700">Phần III (3đ)</div>
+          <div style="font-size:20px;font-weight:900;color:#c2410c">${scoreSA.toFixed(2)}</div>
+          <div style="font-size:12px;color:#64748b">${correctSA}/6 câu</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;font-size:13.5px;color:#64748b">Em hãy cuộn lên xem lời giải chi tiết từng câu.</div>
+    </div>`;
+  resultBox.scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>
